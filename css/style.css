@@ -1,0 +1,39 @@
+body {
+    background-color: #333;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #stratagem-icon {
+    display: flex;
+    flex-direction: row; /* Keeps items in a row */
+    justify-content: center;
+    flex-wrap: wrap; /* Allows items to wrap as needed */
+  }
+  
+  #stratagem-icon img {
+    width: 50px; /* Adjusted for smaller size */
+    height: 50px; /* Adjusted for smaller size */
+    object-fit: cover;
+    margin: 5px;
+    transition: border 0.3s ease; /* Smooth transition for border changes */
+  }
+  
+  .active-stratagem {
+    border: 3px solid yellow;
+  }
+
+  #sequence {
+    text-align: center;
+  }
+
+  .arrow-container {
+    display: inline-block;
+    margin: 2px;
+    padding: 2px;
+    transition: border-color 0.3s ease; /* Smooth transition for feedback */
+  }
+  
+  
