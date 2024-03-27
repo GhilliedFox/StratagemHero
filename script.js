@@ -1,3 +1,5 @@
+import { stratagemSequences } from "./stratagems.js";
+
 // event listener for key presses
 document.addEventListener("keydown", function (event) {
   // Map WASD to arrow keys; ignore other keys
@@ -77,15 +79,6 @@ function highlightArrow(index, correct) {
   }
 }
 
-// Function to check if the current sequence matches a given stratagem sequence
-function matchesSequence(sequence) {
-  // Check if the last N keys of currentSequence match the stratagem's sequence, where N is the length of the stratagem's sequence
-  return sequence.every(
-    (key, index) =>
-      key === currentSequence[currentSequence.length - sequence.length + index]
-  );
-}
-
 // keymap to map WASD to arrow keys
 const keyMap = {
   87: 38, // W -> Up
@@ -93,25 +86,6 @@ const keyMap = {
   83: 40, // S -> Down
   68: 39, // D -> Right
 };
-
-// TODO: Add more stratagems and sequences
-// Definining the stratagem sequences
-// bridge
-const stratagemSequences = [
-  {
-    id: 1,
-    name: "HMG Emplacement",
-    sequence: [40, 38, 37, 39, 39, 37],
-    imageUrl: "images/stratagems/bridge/HMG Emplacement.svg", // Path to the image file
-  },
-  {
-    id: 2,
-    name: "Orbital EMS Strike",
-    sequence: [39, 39, 37, 40],
-    imageUrl: "images/stratagems/bridge/Orbital EMS Strike.svg", // Path to the image file
-  },
-  // more stratagems can be added here
-];
 
 function getRandomStratagems() {
   const randomStratagems = [];
@@ -125,7 +99,12 @@ function getRandomStratagems() {
 
 function displayStratagems(stratagems) {
   const iconDiv = document.getElementById("stratagem-icon");
+  const nameDiv = document.getElementById("stratagem-name"); // Get the div for displaying the stratagem name
+  const sequenceDiv = document.getElementById("sequence");
+
   iconDiv.innerHTML = ""; // Clear existing content
+  sequenceDiv.innerHTML = ""; // Clear previous sequences
+  nameDiv.innerHTML = ""; // Clear previous name
 
   stratagems.forEach((stratagem, index) => {
     const stratagemElement = document.createElement("div");
@@ -134,18 +113,13 @@ function displayStratagems(stratagems) {
     const imageElement = document.createElement("img");
     imageElement.src = stratagem.imageUrl;
     imageElement.alt = stratagem.name;
-    // Apply a yellow border if it's the first stratagem
+
     if (index === 0) {
       imageElement.style.border = "3px solid yellow";
-    } else {
-      imageElement.style.border = "none"; // Ensure others don't have it, or set to a default
-    }
-    stratagemElement.appendChild(imageElement);
+      // Display the name of the active stratagem
+      nameDiv.textContent = stratagem.name; // Set the text of the name div to the current stratagem's name
 
-    iconDiv.appendChild(stratagemElement);
-    if (index === 0) {
-      const sequenceDiv = document.getElementById("sequence");
-      sequenceDiv.innerHTML = ""; // Clear previous sequences
+      // Display sequence for the first stratagem
       stratagem.sequence.forEach((code, sequenceIndex) => {
         const arrowContainer = document.createElement("div");
         arrowContainer.className = "arrow-container";
@@ -154,7 +128,12 @@ function displayStratagems(stratagems) {
         arrowContainer.appendChild(arrowImage);
         sequenceDiv.appendChild(arrowContainer);
       });
+    } else {
+      imageElement.style.border = "none"; // Ensure others don't have it, or set to a default
     }
+
+    stratagemElement.appendChild(imageElement);
+    iconDiv.appendChild(stratagemElement);
   });
 }
 
@@ -179,29 +158,6 @@ function codeToArrow(code) {
       break;
   }
   return img;
-}
-
-function highlightSequence(stratagemId) {
-  const sequenceElement = document.getElementById(`sequence-${stratagemId}`);
-  if (sequenceElement) {
-    Array.from(sequenceElement.children).forEach((child) => {
-      // Extracting the filename from the src URL
-      const filename = child.src.split("/").pop();
-
-      // Define the mapping from non-yellow to yellow images
-      const fileNameMapping = {
-        "L - Copy.png": "images/arrows/L.png",
-        "U - Copy.png": "images/arrows/U.png",
-        "R - Copy.png": "images/arrows/R.png",
-        "D - Copy.png": "images/arrows/D.png",
-      };
-
-      // Replace the src with the new path if a match is found
-      if (filename in fileNameMapping) {
-        child.src = child.src.replace(filename, fileNameMapping[filename]);
-      }
-    });
-  }
 }
 
 let displayedStratagems = [];
