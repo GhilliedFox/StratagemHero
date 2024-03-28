@@ -4,6 +4,13 @@
 // 39 = right
 // 40 = down
 
+const keyMap = {
+  87: 38, // W -> Up
+  65: 37, // A -> Left
+  83: 40, // S -> Down
+  68: 39, // D -> Right
+};
+
 // TODO: Add more stratagems and sequences
 // Definining the stratagem sequences
 // bridge
