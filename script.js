@@ -160,6 +160,28 @@ function codeToArrow(code) {
   return img;
 }
 
+// SIDEBAR
+document.addEventListener("DOMContentLoaded", () => {
+  const stratagemsContainer = document.getElementById("stratagems-container");
+
+  stratagemSequences.forEach((stratagem) => {
+    // Create a container for each stratagem
+    const stratagemElement = document.createElement("div");
+    stratagemElement.classList.add("stratagem");
+
+    // Create an image element for the stratagem
+    const imageElement = document.createElement("img");
+    imageElement.src = stratagem.imageUrl;
+    imageElement.alt = stratagem.name;
+    imageElement.style.width = "100%";
+    stratagemElement.appendChild(imageElement);
+
+    // Append the stratagem element to the container
+    stratagemsContainer.appendChild(stratagemElement);
+  });
+});
+
+// game start logic
 let displayedStratagems = [];
 
 function startGame() {

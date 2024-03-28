@@ -16,18 +16,19 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
   </head>
   <body>
     <!-- Sidebar toggle button -->
     <button
-      class="btn btn-primary"
+      class="btn btn-warning"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#sidebar"
       aria-expanded="false"
       aria-controls="sidebar"
     >
-      Toggle Stratagems
+      Add Stratagems
     </button>
 
     <!-- Sidebar -->
@@ -36,27 +37,25 @@
         class="d-flex flex-column flex-shrink-0 p-3 bg-dark"
         style="width: 250px"
       >
-        <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item">
-            <a href="#" class="nav-link active" aria-current="page">Home</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link">About</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link">Services</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link">Contact</a>
-          </li>
-        </ul>
+        <div id="stratagems-container" class="mb-auto"></div>
       </div>
     </div>
 
     <div id="stratagem-icon"></div>
     <div id="stratagem-name"></div>
     <div id="sequence"></div>
-    <div id="timer"></div>
+    <div class="progress" style="height: 20px">
+      <div
+        id="timer-progress"
+        class="progress-bar bg-warning progress-bar-striped progress-bar-animated"
+        role="progressbar"
+        style="width: 100%"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+
     <script type="module" src="script.js"></script>
   </body>
 </html>

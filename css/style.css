@@ -8,17 +8,17 @@ body {
   
   #stratagem-icon {
     display: flex;
-    flex-direction: row; /* Keeps items in a row */
+    flex-direction: row; 
     justify-content: center;
-    flex-wrap: wrap; /* Allows items to wrap as needed */
+    flex-wrap: wrap; 
   }
   
   #stratagem-icon img {
-    width: 75px; /* Adjusted for smaller size */
-    height: 75px; /* Adjusted for smaller size */
+    width: 75px; 
+    height: 75px; 
     object-fit: cover;
     margin: 5px;
-    transition: border 0.3s ease; /* Smooth transition for border changes */
+    transition: border 0.3s ease;
   }
   
   .active-stratagem {
@@ -30,17 +30,19 @@ body {
   }
   
   #stratagem-name {
+    font-family: 'Roboto', sans-serif;
     font-size: 1.5em;
     font-weight: bold;
-    margin: 10px;
     text-align: center;
+    background: #fec007;
+    color: #333333;
   }
 
   .arrow-container {
     display: inline-block;
     margin: 2px;
     padding: 2px;
-    transition: border-color 0.3s ease; /* Smooth transition for feedback */
+    transition: border-color 0.3s ease;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
-  
-  
