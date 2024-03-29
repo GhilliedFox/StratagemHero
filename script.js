@@ -6,13 +6,6 @@ let timerDuration = 10; // 10 seconds for the timer to start
 let timerStarted = false;
 let timerInterval;
 
-// Initialize or reset timer
-function initializeTimer() {
-  clearInterval(timerInterval);
-  updateTimerProgress(100); // Reset progress to 100%
-  timerDuration = 10; // Reset timer to 10 seconds
-}
-
 // Start timer
 function startTimer() {
   if (!timerStarted) {
@@ -26,7 +19,7 @@ function startTimer() {
       if (timerDuration <= 0) {
         clearInterval(timerInterval);
         console.log("Time's up!");
-        // Handle game over or time up scenario
+        // TODO: Handle game over or time up scenario
       }
     }, 100); // Update every 100 milliseconds for smoother countdown
   }
@@ -38,6 +31,7 @@ function resetTimer() {
   timerDuration = 10; // Reset timer to 10 seconds
   updateTimerProgress(100); // Reset progress to 100%
   clearInterval(timerInterval);
+  startTimer(); // Restart the timer
 }
 
 // Update timer progress bar
@@ -57,8 +51,6 @@ document.addEventListener("keydown", function (event) {
 });
 
 function checkSequence() {
-  if (!timerStarted) startTimer(); // Start the timer on the first keypress
-
   let isCorrectSoFar = true;
   if (displayedStratagems.length > 0) {
     const expectedSequence = displayedStratagems[0].sequence;
@@ -134,7 +126,7 @@ const keyMap = {
 function getRandomStratagems() {
   const randomStratagems = [];
   // Select 10 stratagems
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * stratagemSequences.length);
     randomStratagems.push(stratagemSequences[randomIndex]);
   }
@@ -229,7 +221,6 @@ document.addEventListener("DOMContentLoaded", () => {
 function startGame() {
   displayedStratagems = getRandomStratagems();
   displayStratagems(displayedStratagems);
-  resetTimer();
 }
 
 window.onload = function () {
