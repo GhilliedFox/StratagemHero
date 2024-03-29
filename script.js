@@ -123,16 +123,6 @@ const keyMap = {
   68: 39, // D -> Right
 };
 
-function getRandomStratagems() {
-  const randomStratagems = [];
-  // Select 10 stratagems
-  for (let i = 0; i < 6; i++) {
-    const randomIndex = Math.floor(Math.random() * stratagemSequences.length);
-    randomStratagems.push(stratagemSequences[randomIndex]);
-  }
-  return randomStratagems;
-}
-
 function displayStratagems(stratagems) {
   const iconDiv = document.getElementById("stratagem-icon");
   const nameDiv = document.getElementById("stratagem-name"); // Get the div for displaying the stratagem name
@@ -173,6 +163,29 @@ function displayStratagems(stratagems) {
   });
 }
 
+function updateGameDisplay() {
+  const activeStratagems = getActiveStratagems();
+  if (activeStratagems.length > 0) {
+    // Choose stratagems for display based on selection
+    displayedStratagems = getRandomSelectedStratagems(activeStratagems);
+    displayStratagems(displayedStratagems);
+  } else {
+    // If no stratagems are selected, clear the display or show a default message
+    clearDisplayStratagems();
+  }
+}
+
+function clearDisplayStratagems() {
+  const iconDiv = document.getElementById("stratagem-icon");
+  const nameDiv = document.getElementById("stratagem-name"); // If you use it
+  const sequenceDiv = document.getElementById("sequence");
+
+  // Clear the game display area
+  iconDiv.innerHTML = "";
+  nameDiv.innerHTML = "Select stratagems to start";
+  sequenceDiv.innerHTML = "";
+}
+
 function codeToArrow(code) {
   const img = document.createElement("img");
   img.setAttribute("data-arrow", code); // Set data-arrow attribute
@@ -200,27 +213,116 @@ function codeToArrow(code) {
 document.addEventListener("DOMContentLoaded", () => {
   const stratagemsContainer = document.getElementById("stratagems-container");
 
+  // Create the Toggle All checkbox
+  const toggleAllContainer = document.createElement("div");
+  toggleAllContainer.classList.add("toggle-all-container");
+
+  const toggleAllCheckbox = document.createElement("input");
+  toggleAllCheckbox.type = "checkbox";
+  toggleAllCheckbox.id = "toggle-all";
+  toggleAllCheckbox.checked = true; // Start with all checked
+
+  const toggleAllLabel = document.createElement("label");
+  toggleAllLabel.htmlFor = "toggle-all";
+  toggleAllLabel.textContent = "Toggle All";
+  toggleAllLabel.classList.add("toggle-all-label");
+
+  toggleAllContainer.appendChild(toggleAllCheckbox);
+  toggleAllContainer.appendChild(toggleAllLabel);
+  stratagemsContainer.appendChild(toggleAllContainer);
+
+  // Toggle all stratagems based on the "Toggle All" checkbox state
+  toggleAllCheckbox.addEventListener("change", function () {
+    const allCheckboxes = document.querySelectorAll(
+      "#stratagems-container .stratagem input[type='checkbox']"
+    );
+    const allImageContainers = document.querySelectorAll(
+      "#stratagems-container .stratagem .image-container"
+    );
+
+    allCheckboxes.forEach((checkbox, index) => {
+      checkbox.checked = this.checked;
+      if (this.checked) {
+        allImageContainers[index].classList.add("active");
+      } else {
+        allImageContainers[index].classList.remove("active");
+      }
+    });
+  });
+
   stratagemSequences.forEach((stratagem) => {
-    // Create a container for each stratagem
     const stratagemElement = document.createElement("div");
     stratagemElement.classList.add("stratagem");
 
-    // Create an image element for the stratagem
+    // Stratagem checkbox, hidden visually but functional
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = `stratagem-${stratagem.id}`;
+    checkbox.checked = true; // Initially, all stratagems are selected
+    checkbox.dataset.stratagemId = stratagem.id;
+    checkbox.classList.add("visually-hidden");
+
+    // Image container that acts as the visual toggle for the stratagem
+    const imageContainer = document.createElement("div");
+    imageContainer.classList.add("image-container", "clickable", "active");
     const imageElement = document.createElement("img");
     imageElement.src = stratagem.imageUrl;
     imageElement.alt = stratagem.name;
-    imageElement.style.width = "100%";
-    stratagemElement.appendChild(imageElement);
+    imageElement.classList.add("stratagem-image");
+    imageContainer.appendChild(imageElement);
 
-    // Append the stratagem element to the container
+    // When an image container is clicked, it toggles the checkbox state and updates the game display
+    imageContainer.addEventListener("click", function () {
+      checkbox.checked = !checkbox.checked;
+      this.classList.toggle("active");
+      updateGameDisplay();
+    });
+
+    stratagemElement.appendChild(checkbox);
+    stratagemElement.appendChild(imageContainer);
     stratagemsContainer.appendChild(stratagemElement);
   });
 });
 
-// game start logic
+function getActiveStratagems() {
+  const activeStratagems = [];
+  const checkboxes = document.querySelectorAll(
+    '#stratagems-container .stratagem input[type="checkbox"]:checked'
+  );
+
+  checkboxes.forEach((checkbox) => {
+    const stratagemId = checkbox.dataset.stratagemId;
+    const stratagem = stratagemSequences.find(
+      (s) => s.id.toString() === stratagemId
+    );
+    if (stratagem) {
+      activeStratagems.push(stratagem);
+    }
+  });
+  return activeStratagems;
+}
+
+function getRandomSelectedStratagems(activeStratagems) {
+  const randomStratagems = [];
+  for (let i = 0; i < 6; i++) {
+    if (activeStratagems.length === 0) {
+      console.error("No stratagems selected");
+      return [];
+    }
+    const randomIndex = Math.floor(Math.random() * activeStratagems.length);
+    randomStratagems.push(activeStratagems[randomIndex]);
+  }
+  return randomStratagems;
+}
+
 function startGame() {
-  displayedStratagems = getRandomStratagems();
-  displayStratagems(displayedStratagems);
+  const activeStratagems = getActiveStratagems();
+  if (activeStratagems.length > 0) {
+    displayedStratagems = getRandomSelectedStratagems(activeStratagems);
+    displayStratagems(displayedStratagems);
+  } else {
+    alert("Please select at least one stratagem to start the game.");
+  }
 }
 
 window.onload = function () {

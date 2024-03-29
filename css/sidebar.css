@@ -2,7 +2,7 @@
     position: fixed;
     left: 0;
     width: 250px;
-    height: 100vh;
+    height: 90vh;
     overflow-y: auto; 
     transform: translateX(-100%);
     transition: transform 0.3s ease;
@@ -14,9 +14,51 @@
     transform: translateX(0);
   }
 
+  .toggle-all-container {
+    margin-bottom: 20px; /* Spacing before the list of stratagems */
+  }
+  
+  .toggle-all-label {
+    cursor: pointer;
+    display: block; /* Make it a block to increase clickable area */
+  }
+  
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  
   #stratagems-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
     gap: 15px;
+  }
+  
+  .stratagem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .image-container {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer; /* Make it clear the image is clickable */
+  }
+  
+  .image-container.active {
+    border: 2px solid yellow;
+  }
+  
+  .stratagem-image {
+    width: 50px;
+    height: auto;
   }
   
