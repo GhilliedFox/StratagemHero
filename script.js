@@ -170,12 +170,12 @@ function updateGameDisplay() {
     displayedStratagems = getRandomSelectedStratagems(activeStratagems);
     displayStratagems(displayedStratagems);
   } else {
-    // If no stratagems are selected, clear the display or show a default message
-    clearDisplayStratagems();
+    clearGameDisplay(); // function to clear the game area or display a default message
   }
 }
 
-function clearDisplayStratagems() {
+// Clear the game display area or show a default message
+function clearGameDisplay() {
   const iconDiv = document.getElementById("stratagem-icon");
   const nameDiv = document.getElementById("stratagem-name"); // If you use it
   const sequenceDiv = document.getElementById("sequence");
@@ -248,6 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
         allImageContainers[index].classList.remove("active");
       }
     });
+
+    updateGameDisplay(); // Update the game display after changing the selection state of all stratagems
   });
 
   stratagemSequences.forEach((stratagem) => {
