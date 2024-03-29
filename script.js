@@ -1,22 +1,64 @@
 import { stratagemSequences } from "./stratagems.js";
 
-// event listener for key presses
+let currentSequence = [];
+let displayedStratagems = [];
+let timerDuration = 10; // 10 seconds for the timer to start
+let timerStarted = false;
+let timerInterval;
+
+// Initialize or reset timer
+function initializeTimer() {
+  clearInterval(timerInterval);
+  updateTimerProgress(100); // Reset progress to 100%
+  timerDuration = 10; // Reset timer to 10 seconds
+}
+
+// Start timer
+function startTimer() {
+  if (!timerStarted) {
+    timerStarted = true;
+    timerStarted = true;
+    timerInterval = setInterval(() => {
+      timerDuration -= 0.1; // Decrease timer
+      let progressPercentage = (timerDuration / 10) * 100;
+      updateTimerProgress(progressPercentage);
+
+      if (timerDuration <= 0) {
+        clearInterval(timerInterval);
+        console.log("Time's up!");
+        // Handle game over or time up scenario
+      }
+    }, 100); // Update every 100 milliseconds for smoother countdown
+  }
+}
+
+// Reset timer
+function resetTimer() {
+  timerStarted = false;
+  timerDuration = 10; // Reset timer to 10 seconds
+  updateTimerProgress(100); // Reset progress to 100%
+  clearInterval(timerInterval);
+}
+
+// Update timer progress bar
+function updateTimerProgress(progressPercentage) {
+  const progressBar = document.getElementById("timer-progress");
+  progressBar.style.width = `${progressPercentage}%`;
+}
+
 document.addEventListener("keydown", function (event) {
-  // Map WASD to arrow keys; ignore other keys
   const key = keyMap[event.keyCode] || event.keyCode;
   if (![37, 38, 39, 40].includes(key)) return;
 
-  // Add the mapped key to the current sequence
-  currentSequence.push(key);
+  if (!timerStarted) startTimer(); // Start the timer on the first keypress
 
-  // Process the current sequence
+  currentSequence.push(key);
   checkSequence();
 });
 
-// Initialize an array to store the keys pressed in the current sequence
-let currentSequence = [];
-
 function checkSequence() {
+  if (!timerStarted) startTimer(); // Start the timer on the first keypress
+
   let isCorrectSoFar = true;
   if (displayedStratagems.length > 0) {
     const expectedSequence = displayedStratagems[0].sequence;
@@ -44,10 +86,13 @@ function checkSequence() {
       // Remove the matched stratagem from the list
       displayedStratagems.splice(0, 1);
       currentSequence = []; // Reset the current sequence for the next stratagem
+      // Add time for completing the sequence correctly
+      timerDuration = Math.min(timerDuration + 1, 10); // Ensure the timer doesn't exceed 10 seconds
 
       if (displayedStratagems.length === 0) {
         console.log("All stratagems activated! Loading more...");
         startGame(); // Reload or repopulate stratagems if all are matched
+        resetTimer(); // Reset the timer after completing all stratagems
       } else {
         // Update the displayed list with remaining stratagems
         displayStratagems(displayedStratagems);
@@ -56,8 +101,7 @@ function checkSequence() {
   }
 
   if (currentSequence.length > 8) {
-    // Limit the sequence length to 8
-    currentSequence.shift();
+    currentSequence.shift(); // Limit the sequence length to 8
   }
 }
 
@@ -182,11 +226,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // game start logic
-let displayedStratagems = [];
-
 function startGame() {
   displayedStratagems = getRandomStratagems();
   displayStratagems(displayedStratagems);
+  resetTimer();
 }
 
 window.onload = function () {
