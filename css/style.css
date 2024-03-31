@@ -1,48 +1,64 @@
 body {
-    background-color: #333;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  #stratagem-icon {
-    display: flex;
-    flex-direction: row; 
-    justify-content: center;
-    flex-wrap: wrap; 
-  }
-  
-  #stratagem-icon img {
-    width: 75px; 
-    height: 75px; 
-    object-fit: cover;
-    margin: 5px;
-    transition: border 0.3s ease;
-  }
-  
-  .active-stratagem {
-    border: 3px solid yellow;
-  }
+  background-color: #333;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
-  #sequence {
-    text-align: center;
-  }
-  
-  #stratagem-name {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: center;
-    background: #fec007;
-    color: #333333;
-  }
+#stratagem-icon {
+  display: flex;
+  flex-direction: row; 
+  justify-content: center;
+  flex-wrap: wrap; 
+}
 
-  .arrow-container {
-    display: inline-block;
-    margin: 2px;
-    padding: 2px;
-    transition: border-color 0.3s ease;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+#stratagem-icon img {
+  width: 75px; 
+  height: 75px; 
+  object-fit: cover;
+  margin: 5px;
+  transition: border 0.3s ease;
+}
+
+.active-stratagem {
+  border: 3px solid yellow;
+}
+
+#sequence {
+  text-align: center;
+}
+
+#stratagem-name {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  background: #fec007;
+  color: #333333;
+  width: 100%;
+}
+
+.arrow-container {
+  display: inline-block;
+  margin: 2px;
+  padding: 2px;
+  transition: border-color 0.3s ease;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  height: 90vh; 
+  padding: 20px; 
+  box-sizing: border-box;
+}
+
+.progress {
+  width: 100%; 
+}
