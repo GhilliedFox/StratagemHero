@@ -213,78 +213,80 @@ function codeToArrow(code) {
 document.addEventListener("DOMContentLoaded", () => {
   const stratagemsContainer = document.getElementById("stratagems-container");
 
-  // Create the Toggle All checkbox
   const toggleAllContainer = document.createElement("div");
   toggleAllContainer.classList.add("toggle-all-container");
-
   const toggleAllCheckbox = document.createElement("input");
   toggleAllCheckbox.type = "checkbox";
   toggleAllCheckbox.id = "toggle-all";
-  toggleAllCheckbox.checked = true; // Start with all checked
-
+  toggleAllCheckbox.checked = true;
   const toggleAllLabel = document.createElement("label");
   toggleAllLabel.htmlFor = "toggle-all";
   toggleAllLabel.textContent = "Toggle All";
-  toggleAllLabel.classList.add("toggle-all-label");
-
   toggleAllContainer.appendChild(toggleAllCheckbox);
   toggleAllContainer.appendChild(toggleAllLabel);
   stratagemsContainer.appendChild(toggleAllContainer);
+  stratagemsContainer.appendChild(document.createElement("br"));
 
-  // Toggle all stratagems based on the "Toggle All" checkbox state
-  toggleAllCheckbox.addEventListener("change", function () {
-    const allCheckboxes = document.querySelectorAll(
-      "#stratagems-container .stratagem input[type='checkbox']"
-    );
-    const allImageContainers = document.querySelectorAll(
-      "#stratagems-container .stratagem .image-container"
-    );
-
-    allCheckboxes.forEach((checkbox, index) => {
-      checkbox.checked = this.checked;
-      if (this.checked) {
-        allImageContainers[index].classList.add("active");
-      } else {
-        allImageContainers[index].classList.remove("active");
-      }
-    });
-
-    updateGameDisplay(); // Update the game display after changing the selection state of all stratagems
+  toggleAllCheckbox.addEventListener("change", () => {
+    document
+      .querySelectorAll(
+        "#stratagems-container .stratagem input[type='checkbox']"
+      )
+      .forEach((checkbox, index) => {
+        checkbox.checked = toggleAllCheckbox.checked;
+        document
+          .querySelectorAll("#stratagems-container .stratagem .image-container")
+          [index].classList.toggle("active", toggleAllCheckbox.checked);
+      });
+    updateGameDisplay();
   });
 
-  stratagemSequences.forEach((stratagem) => {
-    const stratagemElement = document.createElement("div");
-    stratagemElement.classList.add("stratagem");
+  const stratagemsByCategory = groupStratagemsByCategory(stratagemSequences);
+  Object.entries(stratagemsByCategory).forEach(([category, stratagems]) => {
+    const categoryTitle = document.createElement("h3");
+    categoryTitle.textContent = category;
+    stratagemsContainer.appendChild(categoryTitle);
+    stratagemsContainer.appendChild(document.createElement("br"));
 
-    // Stratagem checkbox, hidden visually but functional
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = `stratagem-${stratagem.id}`;
-    checkbox.checked = true; // Initially, all stratagems are selected
-    checkbox.dataset.stratagemId = stratagem.id;
-    checkbox.classList.add("visually-hidden");
+    stratagems.forEach((stratagem) => {
+      const stratagemElement = document.createElement("div");
+      stratagemElement.classList.add("stratagem");
 
-    // Image container that acts as the visual toggle for the stratagem
-    const imageContainer = document.createElement("div");
-    imageContainer.classList.add("image-container", "clickable", "active");
-    const imageElement = document.createElement("img");
-    imageElement.src = stratagem.imageUrl;
-    imageElement.alt = stratagem.name;
-    imageElement.classList.add("stratagem-image");
-    imageContainer.appendChild(imageElement);
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = `stratagem-${stratagem.id}`;
+      checkbox.checked = true;
+      checkbox.dataset.stratagemId = stratagem.id;
+      checkbox.classList.add("visually-hidden");
 
-    // When an image container is clicked, it toggles the checkbox state and updates the game display
-    imageContainer.addEventListener("click", function () {
-      checkbox.checked = !checkbox.checked;
-      this.classList.toggle("active");
-      updateGameDisplay();
+      const imageContainer = document.createElement("div");
+      imageContainer.classList.add("image-container", "clickable", "active");
+      const imageElement = document.createElement("img");
+      imageElement.src = stratagem.imageUrl;
+      imageElement.alt = stratagem.name;
+      imageContainer.appendChild(imageElement);
+
+      imageContainer.addEventListener("click", () => {
+        checkbox.checked = !checkbox.checked;
+        imageContainer.classList.toggle("active");
+        updateGameDisplay();
+      });
+
+      stratagemElement.appendChild(checkbox);
+      stratagemElement.appendChild(imageContainer);
+      stratagemsContainer.appendChild(stratagemElement);
     });
-
-    stratagemElement.appendChild(checkbox);
-    stratagemElement.appendChild(imageContainer);
-    stratagemsContainer.appendChild(stratagemElement);
+    // spacing element after the last stratagem of each category
+    stratagemsContainer.appendChild(document.createElement("br"));
   });
 });
+
+function groupStratagemsByCategory(stratagems) {
+  return stratagems.reduce((acc, stratagem) => {
+    (acc[stratagem.category] = acc[stratagem.category] || []).push(stratagem);
+    return acc;
+  }, {});
+}
 
 function getActiveStratagems() {
   const activeStratagems = [];

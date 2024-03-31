@@ -1,64 +1,73 @@
 #sidebar {
-    position: fixed;
-    left: 0;
-    width: 250px;
-    height: 90vh;
-    overflow-y: auto; 
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 1050; 
-    background-color: #343a40; 
-  }
-  
-  #sidebar.show {
-    transform: translateX(0);
-  }
+  position: fixed;
+  left: 0;
+  width: 250px;
+  height: 90vh;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1050;
+  background-color: #343a40;
+}
 
-  .toggle-all-container {
-    margin-bottom: 20px; /* Spacing before the list of stratagems */
-  }
-  
-  .toggle-all-label {
-    cursor: pointer;
-    display: block; /* Make it a block to increase clickable area */
-  }
-  
+#sidebar.show {
+  transform: translateX(0);
+}
 
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
-  
-  #stratagems-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-    gap: 15px;
-  }
-  
-  .stratagem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .image-container {
-    display: inline-block;
-    padding: 5px;
-    cursor: pointer; /* Make it clear the image is clickable */
-  }
-  
-  .image-container.active {
-    border: 2px solid yellow;
-  }
-  
-  .stratagem-image {
-    width: 50px;
-    height: auto;
-  }
-  
+.toggle-all-container {
+  margin-bottom: 20px;
+}
+
+.toggle-all-label {
+  cursor: pointer;
+  display: block;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+#stratagems-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
+  gap: 10px; 
+  padding: 10px; 
+}
+
+.category-title {
+  color: #fff;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.stratagem {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  gap: 5px; 
+}
+
+.image-container {
+  display: block; 
+  padding: 5px;
+  cursor: pointer; 
+  width: 100%; 
+  box-sizing: border-box;
+}
+
+.image-container.active {
+  border: 2px solid yellow; 
+}
+
+.stratagem-image {
+  max-width: 100%;
+  height: auto; 
+}
+
