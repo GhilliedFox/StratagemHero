@@ -213,40 +213,47 @@ function codeToArrow(code) {
 document.addEventListener("DOMContentLoaded", () => {
   const stratagemsContainer = document.getElementById("stratagems-container");
 
+  // Toggle All Setup
   const toggleAllContainer = document.createElement("div");
   toggleAllContainer.classList.add("toggle-all-container");
   const toggleAllCheckbox = document.createElement("input");
   toggleAllCheckbox.type = "checkbox";
   toggleAllCheckbox.id = "toggle-all";
-  toggleAllCheckbox.checked = true;
+  toggleAllCheckbox.checked = true; // Initially checked
   const toggleAllLabel = document.createElement("label");
   toggleAllLabel.htmlFor = "toggle-all";
   toggleAllLabel.textContent = "Toggle All";
   toggleAllContainer.appendChild(toggleAllCheckbox);
   toggleAllContainer.appendChild(toggleAllLabel);
   stratagemsContainer.appendChild(toggleAllContainer);
-  stratagemsContainer.appendChild(document.createElement("br"));
 
+  // Toggle all stratagems event
   toggleAllCheckbox.addEventListener("change", () => {
-    document
-      .querySelectorAll(
-        "#stratagems-container .stratagem input[type='checkbox']"
-      )
-      .forEach((checkbox, index) => {
-        checkbox.checked = toggleAllCheckbox.checked;
-        document
-          .querySelectorAll("#stratagems-container .stratagem .image-container")
-          [index].classList.toggle("active", toggleAllCheckbox.checked);
-      });
+    const checkboxes = document.querySelectorAll(
+      "#stratagems-container .stratagem input[type='checkbox']"
+    );
+    checkboxes.forEach(
+      (checkbox) => (checkbox.checked = toggleAllCheckbox.checked)
+    );
+    const imageContainers = document.querySelectorAll(
+      "#stratagems-container .stratagem .image-container"
+    );
+    imageContainers.forEach((container) =>
+      container.classList.toggle("active", toggleAllCheckbox.checked)
+    );
     updateGameDisplay();
   });
 
   const stratagemsByCategory = groupStratagemsByCategory(stratagemSequences);
+
   Object.entries(stratagemsByCategory).forEach(([category, stratagems]) => {
     const categoryTitle = document.createElement("h3");
     categoryTitle.textContent = category;
+    categoryTitle.classList.add("category-title");
     stratagemsContainer.appendChild(categoryTitle);
-    stratagemsContainer.appendChild(document.createElement("br"));
+
+    const stratagemsGrid = document.createElement("div");
+    stratagemsGrid.classList.add("stratagems-grid");
 
     stratagems.forEach((stratagem) => {
       const stratagemElement = document.createElement("div");
@@ -266,18 +273,19 @@ document.addEventListener("DOMContentLoaded", () => {
       imageElement.alt = stratagem.name;
       imageContainer.appendChild(imageElement);
 
-      imageContainer.addEventListener("click", () => {
+      imageContainer.addEventListener("click", function () {
         checkbox.checked = !checkbox.checked;
-        imageContainer.classList.toggle("active");
+        this.classList.toggle("active");
         updateGameDisplay();
       });
 
       stratagemElement.appendChild(checkbox);
       stratagemElement.appendChild(imageContainer);
-      stratagemsContainer.appendChild(stratagemElement);
+      stratagemsGrid.appendChild(stratagemElement);
     });
-    // spacing element after the last stratagem of each category
-    stratagemsContainer.appendChild(document.createElement("br"));
+
+    stratagemsContainer.appendChild(stratagemsGrid);
+    stratagemsContainer.appendChild(document.createElement("hr")); // Separator after each category
   });
 });
 
