@@ -257,6 +257,56 @@ const stratagemSequences = [
     imageUrl: "images/stratagems/hangar/Jump Pack.svg",
     category: "Hangar",
   },
+  // orbital cannons
+  {
+    id: 36,
+    name: "Orbital 120MM HE Barrage",
+    sequence: [39, 39, 40, 37, 39, 40],
+    imageUrl: "images/stratagems/orbital cannons/Orbital 120MM HE Barrage.svg",
+    category: "Orbital Cannons",
+  },
+  {
+    id: 37,
+    name: "Orbital 380MM HE Barrage",
+    sequence: [39, 40, 38, 38, 37, 40, 40],
+    imageUrl: "images/stratagems/orbital cannons/Orbital 380MM HE Barrage.svg",
+    category: "Orbital Cannons",
+  },
+  {
+    id: 38,
+    name: "Orbital Airburst Strike",
+    sequence: [39, 39, 39],
+    imageUrl: "images/stratagems/orbital cannons/Orbital Airburst Strike.svg",
+    category: "Orbital Cannons",
+  },
+  {
+    id: 39,
+    name: "Orbital Gatling Barrage",
+    sequence: [39, 40, 37, 38, 38],
+    imageUrl: "images/stratagems/orbital cannons/Orbital Gatling Barrage.svg",
+    category: "Orbital Cannons",
+  },
+  {
+    id: 40,
+    name: "Orbital Laser",
+    sequence: [39, 40, 38, 39, 40],
+    imageUrl: "images/stratagems/orbital cannons/Orbital Laser.svg",
+    category: "Orbital Cannons",
+  },
+  {
+    id: 41,
+    name: "Orbital Railcannon Strike",
+    sequence: [39, 38, 40, 40, 39],
+    imageUrl: "images/stratagems/orbital cannons/Orbital Railcannon Strike.svg",
+    category: "Orbital Cannons",
+  },
+  {
+    id: 42,
+    name: "Orbital Walking Barrage",
+    sequence: [39, 40, 39, 40, 39, 40],
+    imageUrl: "images/stratagems/orbital cannons/Orbital Walking Barrage.svg",
+    category: "Orbital Cannons",
+  },
   // more stratagems can be added here
 ];
 
